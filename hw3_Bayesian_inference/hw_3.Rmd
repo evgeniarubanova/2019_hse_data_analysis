@@ -1,0 +1,40 @@
+---
+title: "hw_3"
+output: html_document
+---
+
+library(tidyverse)
+
+### 3.1
+```{r}
+data = read.csv('hw3_phoible.csv')
+cred = prod(dnorm(data$consonants, mean = 22, sd = 6))
+print(cred)
+```
+
+### 3.2
+```{r}
+data_2 = read.csv('letter_frequency.csv') %>% 
+  gather(key = language, value = prob, French:Finnish) %>% 
+  spread(key = letter, value = prob) %>% 
+  mutate(likelihood = m*o*s*t)
+
+model = data_2$language
+prior = 1/13
+likelihood = data_2$likelihood
+product = prior*likelihood
+posterior = product/sum(product)
+
+mostdf = data.frame(model, prior, likelihood, product, posterior)
+max(mostdf$posterior)
+
+```
+
+### 3.3
+```{r}
+data = read.csv('hw3_task_3.csv')
+num = (data$a[1]+33)
+den = (num+data$b[1]+77)
+upd = num/den
+print(upd)
+```
